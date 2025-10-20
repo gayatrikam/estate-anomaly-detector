@@ -5,8 +5,8 @@ This repository hosts our CS4824 Capstone Project, which aims to develop an end-
 Author: Rohan Magesh (mrohan@vt.edu), Shravan Athikinasetti(sathikinasetti@vt.edu), Gayatri Kamtala (gayatrikam@vt.edu) 
 
 ## Repository Structure
-- [`/exploratory_data_analysis`](https://github.com/gayatrikamliec45/estate-anomaly-detector/tree/main/exploratory_data_analysis): Contains all of our data cleaning/preprocessing and exploratory data analysis.
-- [`/model`](https://github.com/gayatrikamliec45/estate-anomaly-detector/tree/main/model): Contains model building logic and final model
+- [`/exploratory_data_analysis`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/exploratory_data_analysis): Contains all of our data cleaning/preprocessing and exploratory data analysis.
+- [`/model`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/model): Contains model building logic and final model
 
 ## Literature Review
 
