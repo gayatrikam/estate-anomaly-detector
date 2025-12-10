@@ -17,8 +17,8 @@ def detect_anomalies(y_true, y_pred, method="ensemble", contamination=0.05,
     residuals = np.array(y_true) - np.array(y_pred)
     
     results = pd.DataFrame({
-        "Actual_Price": y_true,
-        "Predicted_Price": y_pred,
+        "Actual Price": y_true,
+        "Predicted Price": y_pred,
         "Residual": residuals
     })
     
@@ -48,8 +48,8 @@ def detect_anomalies(y_true, y_pred, method="ensemble", contamination=0.05,
 def _ensemble_detection(results, contamination, z_threshold, lower_z):
     """Ensemble detection using multiple methods."""
     residuals = results["Residual"].values
-    actual_prices = results["Actual_Price"].values
-    predicted_prices = results["Predicted_Price"].values
+    actual_prices = results["Actual Price"].values
+    predicted_prices = results["Predicted Price"].values
     
     features = np.column_stack([
         residuals,
@@ -62,26 +62,21 @@ def _ensemble_detection(results, contamination, z_threshold, lower_z):
     scaler = StandardScaler()
     features_scaled = scaler.fit_transform(features)
     
-    # z-score method
     z_scores = (residuals - np.mean(residuals)) / np.std(residuals)
     zscore_anomalies = (np.abs(z_scores) > z_threshold).astype(int)
     
-    # Isolation forest method
     iso_forest = IsolationForest(contamination=contamination, random_state=42)
     iso_preds = iso_forest.fit_predict(features_scaled)
     iso_anomalies = (iso_preds == -1).astype(int)
     
-    # One-class SVM method
     oc_svm = OneClassSVM(gamma='scale', nu=contamination)
     svm_preds = oc_svm.fit_predict(features_scaled)
     svm_anomalies = (svm_preds == -1).astype(int)
     
-    # Clustering method
     dbscan = DBSCAN(eps=0.5, min_samples=5)
     dbscan_labels = dbscan.fit_predict(features_scaled)
     dbscan_anomalies = (dbscan_labels == -1).astype(int)
     
-    # ensembling with majority vote
     total_votes = zscore_anomalies + iso_anomalies + svm_anomalies + dbscan_anomalies
     ensemble_anomalies = (total_votes >= 2).astype(int) 
     
@@ -93,9 +88,9 @@ def _ensemble_detection(results, contamination, z_threshold, lower_z):
     results["DBSCAN_Anomaly"] = dbscan_anomalies
     results["Ensemble_Prediction"] = ensemble_anomalies
     results["Confidence"] = confidence
-    results["Z_Score"] = z_scores
+    results["Z-Score"] = z_scores
     
-    results["Ensemble_Label"] = np.where(
+    results["Anomaly Type"] = np.where(
         ensemble_anomalies == 0, "Normal",
         np.where(residuals > 0, "Overpriced", "Underpriced")
     )
@@ -113,15 +108,15 @@ def plot_ensemble_results(results, save_path=None):
     normal_mask = results['Ensemble_Prediction'] == 0
     anomaly_mask = results['Ensemble_Prediction'] == 1
     
-    ax1.scatter(results[normal_mask]['Actual_Price'], 
-               results[normal_mask]['Predicted_Price'], 
+    ax1.scatter(results[normal_mask]['Actual Price'], 
+               results[normal_mask]['Predicted Price'], 
                alpha=0.6, label='Normal', s=20)
-    ax1.scatter(results[anomaly_mask]['Actual_Price'], 
-               results[anomaly_mask]['Predicted_Price'], 
+    ax1.scatter(results[anomaly_mask]['Actual Price'], 
+               results[anomaly_mask]['Predicted Price'], 
                alpha=0.8, label='Anomaly', s=30, c='red')
     
-    min_price = min(results['Actual_Price'].min(), results['Predicted_Price'].min())
-    max_price = max(results['Actual_Price'].max(), results['Predicted_Price'].max())
+    min_price = min(results['Actual Price'].min(), results['Predicted Price'].min())
+    max_price = max(results['Actual Price'].max(), results['Predicted Price'].max())
     ax1.plot([min_price, max_price], [min_price, max_price], 'k--', alpha=0.5)
     ax1.set_xlabel('Actual Price ($)')
     ax1.set_ylabel('Predicted Price ($)')
@@ -146,7 +141,7 @@ def plot_ensemble_results(results, save_path=None):
     ax3.legend()
     
     ax4 = axes[1, 1]
-    anomaly_counts = results['Ensemble_Label'].value_counts()
+    anomaly_counts = results['Anomaly Type'].value_counts()
     colors = ['lightgreen', 'red', 'blue']
     ax4.pie(anomaly_counts.values, labels=anomaly_counts.index, autopct='%1.1f%%',
            colors=colors[:len(anomaly_counts)])
@@ -157,5 +152,3 @@ def plot_ensemble_results(results, save_path=None):
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.show()
-
-
