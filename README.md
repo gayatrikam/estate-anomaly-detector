@@ -1,13 +1,13 @@
 # Real Estate Anomaly Detector
 
-This repository hosts our CS4824 Capstone Project, which aims to develop an end-to-end machine learning model that detects anomalous pricing in a specific area's housing market. In this context, housing market anomalies refer to listings that deviate from expected market behavior, typically driven by supply, demand, and broader economic fundamentals. Anomalies challenge the idea that markets are perfectly efficient; they may arise intentionally (as scams and unassured pricing) or unintentionally through human error or flawed valuation models. Establishing a reliable way to identify these irregularities can help minimize losses for both sellers and buyers.
+This repository hosts our CS4824 Capstone Project, which aims to develop an end-to-end machine learning model that detects anomalous pricing within the Ames, Iowa housing market. In this context, housing market anomalies refer to listings that deviate from expected market behavior, typically driven by supply, demand, and broader economic fundamentals. Anomalies challenge the idea that markets are perfectly efficient; they may arise intentionally (as scams and unassured pricing) or unintentionally through human error or flawed valuation models. Establishing a reliable way to identify these irregularities can help minimize losses for both sellers and buyers.
 
 Authors: Rohan Magesh (mrohan@vt.edu), Shravan Athikinasetti (sathikinasetti@vt.edu), Gayatri Kamtala (gayatrikam@vt.edu)
 
 ## Repository Structure
 - [`/data`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/data): Contains pre-split train and test data files, as well as descriptions of all real estate features that make up the dataset
 - [`/model`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/model): Contains price prediction and anomaly detection models’ training logic, evaluation metrics, and final model files.
-- [`/preprocessing`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/preprocessing): Contains scripts 
+- [`/preprocessing`](https://github.com/gayatrikam/estate-anomaly-detector/tree/main/preprocessing): Contains scripts for data cleaning, feature encoding, and preparing the dataset for modeling.
 
 ## Literature Review
 - [The Effect of Outlier Detection Methods in Real Estate Valuation with Machine Learning](https://dergipark.org.tr/en/download/article-file/3033205)
@@ -35,9 +35,7 @@ Authors: Rohan Magesh (mrohan@vt.edu), Shravan Athikinasetti (sathikinasetti@vt.
 
 We chose the dataset published by Kaggle for their ongoing sales price prediction model competition: https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview
 
-This dataset is an iteration of the Ames Housing dataset, compiled by ean De Cock for data science education purposes. This dataset includes 79 explanatory variables that comprehensively describe residential homes in Ames, Iowa. 
-
-Before we can build our anomaly detection mechanism, we must first develop a price prediction model. The dataset was specifically released to be compatible with housing price prediction tasks, containing features that capture structural, locational, and transactional attributes of properties. 
+This dataset is an iteration of the Ames Housing dataset, compiled by Dean De Cock for data science education purposes. The dataset was specifically released to be compatible with housing price prediction tasks, containing features that capture structural, locational, and transactional attributes of properties. It includes 79 qualitative and quantitative variables that comprehensively describe residential homes in Ames, Iowa. Through preprocessing and encoding, we expand these into over 200 fully quantitative, model-ready features.
 
 ## Library Documentation
 - [Pandas Library](https://pandas.pydata.org/docs/)
@@ -45,6 +43,8 @@ Before we can build our anomaly detection mechanism, we must first develop a pri
 - [Matplotlib Library](https://matplotlib.org/stable/index.html)
 - [scikit-learn Library](https://scikit-learn.org/stable/)
 
-## How to Run
+## Deployment Goals/How to Run
 
-More information to come once final model and deployment details are configured.
+This pipeline could assist real estate platforms as buyer tools to flag potentially underpriced or overpriced properties and identify these properties for sellers to view and make changes accordingly in order to avoid scams or undersells. However, deployment would require regular retraining on current market data, validation against actual sale outcomes, and careful communication that anomalies represent statistical differences, not guarantees of anomalous pricing.
+
+Users can download our preprocessed dataset and run the model and anomaly detection studies to replicate our results, but they will not be able to apply the system to their own data.
